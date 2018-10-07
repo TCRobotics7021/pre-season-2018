@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+    id "jaci.openrio.gradle.GradleRIO" version "2018.03.06"
+//    id "edu.wpi.first.GradleRIO" version "2019.0.0-alpha-3"
+}
+
+group 'calf'
+version '1.0-SNAPSHOT'
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.9'
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile wpilib()
+    compile pathfinder()
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
