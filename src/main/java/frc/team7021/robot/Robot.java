@@ -2,7 +2,6 @@ package frc.team7021.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.team7021.calfs.CalfRobotManager;
-import frc.team7021.calfs.planners.Planner;
 import frc.team7021.calfs.planners.TrajectoryPlanner;
 import frc.team7021.robot.subsystems.Drive;
 
@@ -11,10 +10,20 @@ public class Robot extends TimedRobot {
 
     Drive mDrive = new Drive();
 
-    Robot() {
+    public Robot() {
         mRobotManager = new CalfRobotManager();
 
         mRobotManager.addSubsystem(mDrive);
+    }
+
+    @Override
+    public void robotInit() {
+        teleopInit();
+    }
+
+    @Override
+    public void robotPeriodic() {
+        teleopPeriodic();
     }
 
     /**
@@ -22,26 +31,18 @@ public class Robot extends TimedRobot {
      *
      * @return Current robot state
      */
-    private RobotState getState() {
-        return RobotState.getState();
+    private RobotInput getState() {
+        return RobotInput.getState();
     }
 
     @Override
     public void autonomousInit() {
-        Planner[] planners = {
-                new TrajectoryPlanner(mDrive, new BasicPath())
-        };
-
-        mRobotManager.startTeleop(planners);
+        mRobotManager.startTeleop(new TrajectoryPlanner(mDrive, new BasicPath()));
     }
 
     @Override
     public void teleopInit() {
-        Planner[] planners = {
-                new TeleopPlanner(this)
-        };
-
-        mRobotManager.startTeleop(planners);
+        mRobotManager.startTeleop(new TeleopPlanner(this));
     }
 
     @Override
@@ -51,20 +52,20 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
-        RobotState.loadCurrentState();
+        RobotInput.loadCurrentState();
 
         mRobotManager.stepAuto();
 
-        RobotState.log();
+        RobotInput.log();
     }
 
     @Override
     public void teleopPeriodic() {
-        RobotState.loadCurrentState();
+        RobotInput.loadCurrentState();
 
         mRobotManager.stepTeleop();
 
-        RobotState.log();
+        RobotInput.log();
     }
 
     @Override

@@ -1,31 +1,36 @@
 package frc.team7021.robot;
 
 import com.google.gson.Gson;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.team7021.calfs.IState;
 
-public class RobotState implements IState {
-    private static RobotState sCurrent;
+public class RobotInput implements IState {
+    private static RobotInput sCurrent;
 
     public int leftEncoder;
     public int rightEncoder;
     public double gyro;
+    public boolean test;
+
+    private static DigitalInput sInput = new DigitalInput(0);
 
     /**
      * Load the current robot state from the
      */
     public static void loadCurrentState() {
-        sCurrent = new RobotState();
+        sCurrent = new RobotInput();
 
         sCurrent.leftEncoder = 10;
         sCurrent.rightEncoder = 20;
         sCurrent.gyro = 5;
+        sCurrent.test = sInput.get();
     }
 
     /**
      * Log the current state to a file
      */
     public static void log() {
-        // For now do nothing...
+        System.out.println(sCurrent.toJson());
     }
 
     /**
@@ -33,7 +38,7 @@ public class RobotState implements IState {
      *
      * @return Current robot state
      */
-    public static RobotState getState() {
+    public static RobotInput getState() {
         return sCurrent;
     }
 

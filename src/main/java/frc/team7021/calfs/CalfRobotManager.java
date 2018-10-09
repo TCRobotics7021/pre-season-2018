@@ -3,6 +3,7 @@ package frc.team7021.calfs;
 import frc.team7021.calfs.planners.Planner;
 import frc.team7021.calfs.subsystems.Subsystem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CalfRobotManager {
@@ -10,8 +11,8 @@ public class CalfRobotManager {
 
     private List<Subsystem> mSubsystems;
 
-    private Planner[] mAutoPlanners;
-    private Planner[] mTeleopPlanners;
+    private Planner mAutoPlanner;
+    private Planner mTeleopPlanner;
 
     private enum Mode {
         AUTO,
@@ -22,6 +23,7 @@ public class CalfRobotManager {
     private Mode mMode;
 
     public CalfRobotManager() {
+        mSubsystems = new ArrayList<>();
     }
 
     public void addSubsystem(Subsystem subsystem) {
@@ -38,25 +40,22 @@ public class CalfRobotManager {
         }
     }
 
-    public void startAuto(Planner[] planners) {
+    public void startAuto(Planner planner) {
         stopDisabled();
         stopTeleop();
-        mAutoPlanners = planners;
 
-        for (Planner planner : planners) {
-            planner.start();
-        }
+        mAutoPlanner = planner;
+
+        mAutoPlanner.start();
     }
 
-    public void startTeleop(Planner[] planners) {
+    public void startTeleop(Planner planner) {
         stopAuto();
         stopDisabled();
 
-        mTeleopPlanners = planners;
+        mTeleopPlanner = planner;
 
-        for (Planner planner : planners) {
-            planner.start();
-        }
+        mTeleopPlanner.start();
     }
 
     public void startDisabled(Planner[] planner) {
@@ -65,17 +64,13 @@ public class CalfRobotManager {
     }
 
     public void stepAuto() {
-        for (Planner planner : mAutoPlanners) {
-            planner.step();
-        }
+        mAutoPlanner.step();
 
         updateSubsystems();
     }
 
     public void stepTeleop() {
-        for (Planner planner : mTeleopPlanners) {
-            planner.step();
-        }
+        mTeleopPlanner.step();
 
         updateSubsystems();
     }
@@ -84,14 +79,14 @@ public class CalfRobotManager {
     }
 
     public void stopAuto() {
-        for (Planner planner : mAutoPlanners) {
-            planner.stop();
+        if (mAutoPlanner != null) {
+            mAutoPlanner.stop();
         }
     }
 
     public void stopTeleop() {
-        for (Planner planner : mTeleopPlanners) {
-            planner.stop();
+        if (mTeleopPlanner != null) {
+            mTeleopPlanner.stop();
         }
     }
 
