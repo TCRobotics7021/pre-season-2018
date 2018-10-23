@@ -13,6 +13,12 @@ abstract public class Subsystem {
     abstract public String toJson();
 
     /**
+     * Read sensor inputs
+     */
+    abstract public void readInputs();
+
+
+    /**
      * Write the outputs to the motors
      */
     abstract public void writeOutputs();

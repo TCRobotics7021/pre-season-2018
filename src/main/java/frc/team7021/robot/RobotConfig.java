@@ -13,4 +13,7 @@ public class RobotConfig {
 
     // Robot config
     public final double WIDTH = 0.5;
+
+    public int encoderPPRev = 1400;
+    public double wheelDiameter = 0.174625;
 }

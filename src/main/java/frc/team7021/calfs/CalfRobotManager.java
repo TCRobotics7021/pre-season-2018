@@ -26,18 +26,24 @@ public class CalfRobotManager {
         mSubsystems = new ArrayList<>();
     }
 
+    public void readInputs() {
+        for (Subsystem subsystem : mSubsystems) {
+            subsystem.readInputs();
+        }
+    }
+
+    public void writeOutputs() {
+        for (Subsystem subsystem : mSubsystems) {
+            subsystem.writeOutputs();
+        }
+    }
+
     public void addSubsystem(Subsystem subsystem) {
         mSubsystems.add(subsystem);
     }
 
     private void setMode(Mode mode) {
         mMode = mode;
-    }
-
-    private void updateSubsystems() {
-        for (Subsystem subsystem : mSubsystems) {
-            subsystem.writeOutputs();
-        }
     }
 
     public void startAuto(Planner planner) {
@@ -58,21 +64,27 @@ public class CalfRobotManager {
         mTeleopPlanner.start();
     }
 
-    public void startDisabled(Planner[] planner) {
+    public void startDisabled() {
         stopAuto();
         stopTeleop();
     }
 
     public void stepAuto() {
-        mAutoPlanner.step();
+        readInputs();
 
-        updateSubsystems();
+        if (mAutoPlanner != null) {
+            mAutoPlanner.step();
+        }
+
+        writeOutputs();
     }
 
     public void stepTeleop() {
+        readInputs();
+
         mTeleopPlanner.step();
 
-        updateSubsystems();
+        writeOutputs();
     }
 
     public void stepDisabled() {

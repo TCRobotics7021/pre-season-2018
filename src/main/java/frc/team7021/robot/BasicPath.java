@@ -31,7 +31,7 @@ public class BasicPath extends CalfTrajectory {
 
     // These values are used to generate the trajectory
     double dt = 1.0 / 50.0;
-    double maxTravelVelocity = 0.9;
+    double maxTravelVelocity = 0.5;
     double maxAccel = 30;
     double maxJerk = 60;
 

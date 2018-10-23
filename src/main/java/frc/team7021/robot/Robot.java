@@ -26,15 +26,6 @@ public class Robot extends TimedRobot {
         teleopPeriodic();
     }
 
-    /**
-     * Get the current state of the robot
-     *
-     * @return Current robot state
-     */
-    private RobotInput getState() {
-        return RobotInput.getState();
-    }
-
     @Override
     public void autonomousInit() {
         mRobotManager.startTeleop(new TrajectoryPlanner(mDrive, new BasicPath()));
@@ -47,29 +38,21 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-//        mRobotManager.startDisabled();
+        mRobotManager.startDisabled();
     }
 
     @Override
     public void autonomousPeriodic() {
-        RobotInput.loadCurrentState();
-
         mRobotManager.stepAuto();
-
-        RobotInput.log();
     }
 
     @Override
     public void teleopPeriodic() {
-        RobotInput.loadCurrentState();
-
         mRobotManager.stepTeleop();
-
-        RobotInput.log();
     }
 
     @Override
     public void disabledPeriodic() {
-//        mRobotManager.stepDisabled();
+        mRobotManager.stepDisabled();
     }
 }

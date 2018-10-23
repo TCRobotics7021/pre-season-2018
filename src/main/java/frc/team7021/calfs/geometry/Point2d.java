@@ -1,12 +1,16 @@
 package frc.team7021.calfs.geometry;
 
-public class Point2d {
-    private final double x;
-    private final double y;
+import com.google.gson.Gson;
 
-    Point2d(double x, double y) {
+public class Point2d {
+    public final double x;
+    public final double y;
+    public final double theta;
+
+    public Point2d(double x, double y, double angle) {
         this.x = x;
         this.y = y;
+        this.theta = angle;
     }
 
     public double getX() {
@@ -17,7 +21,13 @@ public class Point2d {
         return y;
     }
 
-    public Point2d add(Vector2d vector) {
-        return new Point2d(x + vector.getX(), y + vector.getY());
+    public Point2d add(Vector2d vector, double angle) {
+        return new Point2d(x + vector.getX(), y + vector.getY(), angle + this.theta);
+    }
+
+    public String toJson() {
+        Gson gson = new Gson();
+
+        return gson.toJson(this);
     }
 }
