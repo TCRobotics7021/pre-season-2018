@@ -14,10 +14,10 @@ public class BasicPath extends CalfTrajectory {
 
     // Robot Properties
     int encoderPPRev = 1400;
-    double wheelDiameter = 0.174625;
+    double wheelDiameter = 0.1016;
 
     // This isn't correct, but it seems to work for now. Probably the maxVelocities are off.
-    double width = 2 * 0.50165;
+    double width = 0.50165;
 
     // Max possible motor speed in encoder ticks per second
     double maxVelocityLeftEnc = 8000;
@@ -38,9 +38,13 @@ public class BasicPath extends CalfTrajectory {
     public void configure() {
         // Specify path
         Waypoint[] points = new Waypoint[]{
+//                new Waypoint(0, 1, 0),
+//                new Waypoint(1, 1, 0),
+//                new Waypoint(4, 2, Pathfinder.d2r(90)),
                 new Waypoint(0, 1, 0),
-
-                new Waypoint(4, 2, Pathfinder.d2r(90)),
+                new Waypoint(2, 2, Pathfinder.d2r(90)),
+                new Waypoint(2, 3, Pathfinder.d2r(90)),
+                new Waypoint(3, 4, Pathfinder.d2r(180)),
         };
 
 

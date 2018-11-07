@@ -11,6 +11,24 @@ task wrapper(type: Wrapper) {
     gradleVersion = '4.9'
 }
 
+def TEAM = 7021
+def ROBOT_CLASS = "frc.team7021.Robot"
+
+deploy {
+    targets {
+        target("roborio", edu.wpi.first.gradlerio.frc.RoboRIO) {
+            team = TEAM
+        }
+    }
+    artifacts {
+        artifact('frcJava', edu.wpi.first.gradlerio.frc.FRCJavaArtifact) {
+            targets << "roborio"
+        }
+    }
+}
+
+
+
 sourceCompatibility = 1.8
 
 repositories {
@@ -20,6 +38,7 @@ repositories {
 dependencies {
     compile wpilib()
     compile pathfinder()
+    compile ctre()
 
     compile 'com.google.code.gson:gson:2.8.5'
 

@@ -11,10 +11,10 @@ import frc.team7021.robot.sensors.Position;
 
 public class Drive extends Subsystem implements TankDriveSubsystem {
     private TalonSRX motor1 = new TalonSRX(1);
-    private TalonSRX motor2 = new TalonSRX(4);
+    private TalonSRX motor2 = new TalonSRX(3);
 
     private TalonSRX motor3 = new TalonSRX(2);
-    private TalonSRX motor4 = new TalonSRX(3);
+    private TalonSRX motor4 = new TalonSRX(4);
 
     private Position mPosition = new Position();
 
@@ -55,12 +55,16 @@ public class Drive extends Subsystem implements TankDriveSubsystem {
 
     private PeriodicIO io = new PeriodicIO();
 
-    public void setSpeed(double left, double right) {
-        left = clipSpeed(left);
-        right = clipSpeed(right);
+    public void setSpeed(double left, double right, boolean allowNegative) {
+        left = clipSpeed(left, allowNegative);
+        right = clipSpeed(right, allowNegative);
 
         io.leftSpeed = left;
         io.rightSpeed = right;
+    }
+
+    public void setSpeed(double left, double right) {
+        setSpeed(left, right, false);
     }
 
     @Override
@@ -73,8 +77,9 @@ public class Drive extends Subsystem implements TankDriveSubsystem {
         return io.rightEncoder;
     }
 
-    private double clipSpeed(double speed) {
-        return Math.max(0, Math.min(1, speed));
+    private double clipSpeed(double speed, boolean allowNegative) {
+        double lowerBound = allowNegative? -1 : 0;
+        return Math.max(lowerBound, Math.min(1, speed));
     }
 
     @Override
